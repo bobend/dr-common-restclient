@@ -20,4 +20,4 @@ jobs:
     - name: build
       run: dotnet build src --configuration Release
     - name: nuget push      
-      run: dotnet nuget push **/*.nupkg -Source "GPR"
+      run: nuget push **/*.nupkg -Source "GPR"

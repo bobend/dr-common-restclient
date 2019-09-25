@@ -1,0 +1,23 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.103'
+    - name: Setup Nuget.exe
+      uses: warrenbuckley/Setup-Nuget@v1
+    - name: nuget source
+      run: nuget sources Add -Name "GPR" -Source "https://nuget.pkg.github.com/bobend/index.json" -UserName bobend -Password "${{ secrets.GITHUB_TOKEN }}"
+    - name: build
+      run: dotnet build src --configuration Release
+    - name: nuget push      
+      run: nuget push **/*.nupkg -Source "GPR"

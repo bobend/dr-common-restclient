@@ -15,5 +15,7 @@ jobs:
         dotnet-version: '2.2.103'
     - name: build
       run: dotnet build src --configuration Release
-    - name: publish
-      run: dotnet nuget push **/*.nupkg -k "${{ secrets.GITHUB_TOKEN }}" -s https://nuget.pkg.github.com/bobend/index.json
+    - name: nuget source
+      run: nuget sources Add -Name "GPR" -Source "https://nuget.pkg.github.com/bobend/index.json" -UserName bobend -Password "${{ secrets.GITHUB_TOKEN }}"
+    - name: nuget push      
+      run: dotnet nuget push **/*.nupkg -Source "GPR"

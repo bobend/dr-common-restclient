@@ -14,5 +14,6 @@ jobs:
       with:
         dotnet-version: '2.2.103'
     - name: build
-      run: dotnet build src/*.sln
-     
+      run: dotnet build src --configuration Release
+    - name: publish
+      run: dotnet nuget push **/*.nupkg -k "${{ secrets.GITHUB_TOKEN }}" -s https://nuget.pkg.github.com/bobend/index.json
